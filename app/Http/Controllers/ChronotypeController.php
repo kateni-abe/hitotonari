@@ -25,19 +25,15 @@ class ChronotypeController extends Controller
 
     public function store(Request $request)
     {
-        $user = Auth::user();
+        $validated = $request->validate([
+            'type' => 'required|string|max:255',
+        ]);
         
-        if($user->chronotype) {
-            // ユーザーがすでにchronotypeを持っている場合、更新する
-            $user->chronotype->update($request->all());
-        } else {
-            // ユーザーがchronotypeを持っていない場合、新規作成する
-            $chronotype = new Chronotype($request->all());
-            $chronotype->user()->associate($user);
-            $chronotype->save();
-        }
+        $chronotype = Chronotype::firstOrNew(['user_id' => Auth::id()]);
+        $chronotype->type = $validated['type'];
+        $chronotype->save();
         
-        return redirect()->back()->with('success', 'クロノタイプが登録されました');
+        return response()->json(['message' => 'Chronotype saved successfully'], 201);
     }
 
     public function update(Request $request, $id)

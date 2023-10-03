@@ -31,19 +31,18 @@ class SixteenPersonalitiesController extends Controller
 
     // データベースに保存
     public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'type_id' => 'required|exists:info_sixteen_personality_types,id',
-        ]);
+{
+    $validated = $request->validate([
+        'type' => 'required|integer|exists:info_sixteen_personality_types,id',
+    ]);
+    
+    $sixteenPersonality = SixteenPersonality::firstOrNew(['user_id' => Auth::id()]);
+    $sixteenPersonality->type = $validated['type'];
+    $sixteenPersonality->save();
 
-        $sixteenPersonality = new SixteenPersonality($validated);
+    return response()->json(['message' => 'Sixteen Personality saved successfully'], 201);
+}
 
-        // associate methodを使用して、ユーザと関連付けます。
-        $sixteenPersonality->user()->associate(Auth::user());
-        $sixteenPersonality->save(); // Save to the database
-
-        return redirect()->route('sixteen_personalities.index');
-    }
 
     // 詳細表示画面
     public function show(SixteenPersonality $sixteenPersonality)

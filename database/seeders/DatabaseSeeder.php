@@ -6,13 +6,14 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    public function run(): void
+    public function run()
     {
-        \App\Models\User::factory(10)
-            ->has(\App\Models\SixteenPersonality::factory())
-            ->has(\App\Models\Chronotype::factory())
-            ->create();
-
-        $this->call(FriendshipsTableSeeder::class);
+        $this->call([
+            UsersTableSeeder::class,
+            ProfilesTableSeeder::class,
+            ChronotypesTableSeeder::class,
+            SixteenPersonalitiesTableSeeder::class,
+            FriendshipsTableSeeder::class,
+        ]);
     }
 }

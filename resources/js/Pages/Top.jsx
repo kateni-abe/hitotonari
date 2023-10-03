@@ -9,6 +9,13 @@ const Top = () => {
 
     const submit = (e) => {
         e.preventDefault();
+
+        // メールアドレスとパスワードの両方が入力されていない場合、リクエストを送信しない
+        if (!data.email || !data.password) {
+            alert("メールアドレスとパスワードの両方を入力してください");
+            return;
+        }
+
         post(route("login"), {
             onSuccess: () => console.log("User logged in"),
             onError: () => alert("入力内容に誤りがあります"),

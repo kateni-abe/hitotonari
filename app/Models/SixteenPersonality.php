@@ -9,5 +9,21 @@ class SixteenPersonality extends Model
 {
     use HasFactory;
 
-    protected $table = 'sixteen_personalities'; // テーブル名を指定
+    protected $fillable = ['type_id'];
+
+    /**
+     * Get the user that owns the personality.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the type associated with the personality.
+     */
+    public function type()
+    {
+        return $this->belongsTo(InfoSixteenPersonalityType::class, 'type_id');
+    }
 }

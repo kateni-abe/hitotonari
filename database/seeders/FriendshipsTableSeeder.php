@@ -2,17 +2,18 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Friendship;
+use Illuminate\Support\Facades\DB;
 
 class FriendshipsTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
+    public function run()
     {
-        Friendship::factory(10)->create();
+        $data = [
+            ['user_id' => 1, 'friend_id' => 2, 'is_friends' => true],
+            // 他の友達関係のデータも同様に追加
+        ];
+
+        DB::table('friendships')->insert($data);
     }
 }

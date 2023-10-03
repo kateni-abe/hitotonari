@@ -9,8 +9,13 @@ class InfoSixteenPersonalityType extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'type',
-        'description',
-    ];
+    protected $fillable = ['type'];
+
+    /**
+     * Get the sixteen personalities associated with the type.
+     */
+    public function sixteenPersonalities()
+    {
+        return $this->hasMany(SixteenPersonality::class, 'type_id');
+    }
 }

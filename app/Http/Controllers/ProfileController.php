@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Profile;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -60,4 +61,17 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+    public function store(Request $request)
+{
+    $data = $request->validate([
+        'icon' => 'string|nullable',
+        'birthdate' => 'date|nullable',
+        'birthdate_visibility' => 'string|in:public,private',
+    ]);
+    $data['user_id'] = auth()->id();
+    Profile::create($data);
+    return response()->json(['message' => 'Profile saved successfully'], 201);
+}
+
 }

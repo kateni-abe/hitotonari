@@ -30,3 +30,7 @@ Route::resource('sixteen_personalities', SixteenPersonalitiesController::class);
 Route::apiResource('chronotype', ChronotypeController::class);
 Route::resource('friendships', FriendshipController::class);
 Route::apiResource('info_chronotypes', InfoChronotypeController::class);
+Route::post('/profiles', [ProfileController::class, 'store']);
+Route::post('/sixteen_personalities', [SixteenPersonalitiesController::class, 'store']);
+Route::post('/chronotypes', [ChronotypeController::class, 'store']);
+Route::post('/updateProfile', [ProfileController::class, 'store']);
