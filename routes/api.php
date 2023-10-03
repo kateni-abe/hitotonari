@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SixteenPersonalitiesController;
 use App\Http\Controllers\ChronotypeController;
 use App\Http\Controllers\FriendshipController;
+use App\Http\Controllers\InfoChronotypeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,3 +29,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::resource('sixteen_personalities', SixteenPersonalitiesController::class);
 Route::apiResource('chronotype', ChronotypeController::class);
 Route::resource('friendships', FriendshipController::class);
+Route::apiResource('info_chronotypes', InfoChronotypeController::class);

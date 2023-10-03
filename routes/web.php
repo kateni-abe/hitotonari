@@ -5,6 +5,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,8 +23,12 @@ Route::get('/', function () {
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
+        
+        
     ]);
 });
+
+
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -35,6 +40,37 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    
 });
+
+Route::get('/', function () {
+    return Inertia::render('Top'); // resources/js/Pages/Top.jsx
+});
+
+Route::get('/introduction', function () {
+    return Inertia::render('Introduction'); // resources/js/Pages/Introduction.jsx
+})->name('introduction');
+
+
+Route::get('/profile-input', function () {
+    return Inertia::render('ProfileInput');  
+})->name('profileInput');
+
+Route::get('/top', function () {
+    return Inertia::render('Top'); // これはあなたのTopページのコンポーネント名になります。
+})->name('top');
+
+
+Route::get('/registration-complete', function () {
+    return Inertia::render('Registration_Complete');
+})->name('registration-complete');
+
+
+// もし Mypage.jsx へのルートも必要であれば、以下のように追加
+Route::get('/mypage', function () {
+    return inertia('Mypage');
+})->name('mypage');
+
 
 require __DIR__.'/auth.php';

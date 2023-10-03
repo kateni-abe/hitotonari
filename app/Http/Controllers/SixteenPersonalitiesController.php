@@ -2,63 +2,78 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\SixteenPersonality;
+use App\Models\InfoSixteenPersonalityType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SixteenPersonalitiesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // ユーザがログインしていることを確認
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    // 一覧表示画面
     public function index()
     {
-        //
+        $sixteenPersonalities = Auth::user()->sixteenPersonalities; // Authenticated user's personalities
+        return view('sixteen_personalities.index', compact('sixteenPersonalities'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    // 登録画面表示
     public function create()
     {
-        //
+        $types = InfoSixteenPersonalityType::all(); // Get all personality types
+        return view('sixteen_personalities.create', compact('types'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // データベースに保存
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'type_id' => 'required|exists:info_sixteen_personality_types,id',
+        ]);
+
+        $sixteenPersonality = new SixteenPersonality($validated);
+
+        // associate methodを使用して、ユーザと関連付けます。
+        $sixteenPersonality->user()->associate(Auth::user());
+        $sixteenPersonality->save(); // Save to the database
+
+        return redirect()->route('sixteen_personalities.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    // 詳細表示画面
+    public function show(SixteenPersonality $sixteenPersonality)
     {
-        //
+        return view('sixteen_personalities.show', compact('sixteenPersonality'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    // 編集画面表示
+    public function edit(SixteenPersonality $sixteenPersonality)
     {
-        //
+        $types = InfoSixteenPersonalityType::all(); // Get all personality types
+        return view('sixteen_personalities.edit', compact('sixteenPersonality', 'types'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    // データベースを更新
+    public function update(Request $request, SixteenPersonality $sixteenPersonality)
     {
-        //
+        $validated = $request->validate([
+            'type_id' => 'required|exists:info_sixteen_personality_types,id',
+        ]);
+
+        $sixteenPersonality->update($validated); // Update the personality
+
+        return redirect()->route('sixteen_personalities.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    // データベースから削除
+    public function destroy(SixteenPersonality $sixteenPersonality)
     {
-        //
+        $sixteenPersonality->delete(); // Delete the personality
+        return redirect()->route('sixteen_personalities.index');
     }
 }

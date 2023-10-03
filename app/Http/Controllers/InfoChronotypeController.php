@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Models;
+namespace App\Http\Controllers;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Friendship extends Model
+class InfoChronotypeController extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'friend_id', 'is_friends'];
-    
+    protected $fillable = ['type', 'description'];
 }

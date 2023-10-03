@@ -5,10 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Friendship extends Model
+class InfoChronotype extends Model
 {
     use HasFactory;
-
-    protected $fillable = ['user_id', 'friend_id', 'is_friends'];
-    
 }
