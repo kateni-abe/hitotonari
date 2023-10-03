@@ -63,7 +63,7 @@ class ProfileController extends Controller
     }
 
     public function store(Request $request)
-{
+{    error_log('store method called');
     $data = $request->validate([
         'icon' => 'string|nullable',
         'birthdate' => 'date|nullable',
